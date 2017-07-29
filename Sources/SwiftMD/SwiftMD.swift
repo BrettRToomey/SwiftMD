@@ -43,8 +43,14 @@ extension Parser {
 
 extension Parser {
     public func extractNode() -> AstNode? {
-        if getSpaceCount() >= 4 {
-            return extractPotentialCodeblock() ?? extractNode()
+        guard !isEmptyLine() else {
+            _ = consumeLine()
+            
+            if getSpaceCount() >= 4 {
+                return extractCodeblock()
+            } else {
+                return extractNode()
+            }
         }
 
         guard let byte = scanner.peek() else { return nil}
@@ -114,44 +120,27 @@ extension Parser {
         return AstNode(value: AstNode.HorizontalRule())
     }
 
-    public func extractPotentialCodeblock() -> AstNode? {
-//        let start = scanner.pointer
-        var count = 0
-        var seenNonWhitespace = false
-        while let byte = scanner.peek(aheadBy: count) {
-            if byte == .newline {
+    public func extractCodeblock() -> AstNode {
+        var body: [Bytes] = [consumeLine()]
+
+        while scanner.peek() != nil {
+            if isEmptyLine() { body.append(consumeLine()) }
+            guard getSpaceCount() >= 4 else {
                 break
             }
 
-            if byte == .carriageReturn {
-                if scanner.peek(aheadBy: count + 1) == .newline {
-                    count += 1
-                }
-
-                break
-            }
-
-            if byte != .space {
-                if byte != .tab {
-                    seenNonWhitespace = true
-                }
-            }
-
-            count += 1
+            body.append(consumeLine())
         }
 
-        // empty line
-        guard seenNonWhitespace else { return nil }
-
-        return nil
+        return AstNode(value: AstNode.Codeblock(body: body))
     }
 }
 
 extension Parser {
-    public func isEmptyLine() -> Bool {
+    internal func isEmptyLine() -> Bool {
         var peeked = 0
         while let byte = scanner.peek(aheadBy: peeked) {
-            if byte == .newline || byte == .carriageReturn { continue }
+            if byte == .newline || byte == .carriageReturn { break }
             if byte != .space && byte != .tab { return false }
             peeked += 1
         }
@@ -159,7 +148,7 @@ extension Parser {
         return true
     }
 
-    public func getSpaceCount() -> Int {
+    internal func getSpaceCount() -> Int {
         var count = 0
         var peeked = 0
 

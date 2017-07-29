@@ -56,7 +56,7 @@ extension AstNode {
     public struct Codeblock: AstValue {
         public static let kind = AstKind.codeblock
 
-        public let body: Bytes
+        public let body: [Bytes]
     }
 
     public struct Blockquote: AstValue {

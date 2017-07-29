@@ -2,6 +2,18 @@
 @testable import SwiftMDTests
 import XCTest
 
+extension CodeblockTests {
+    static var allTests = [
+        ("testCodeblock", testCodeblock),
+    ]
+}
+
+extension ExtractNodeTests {
+    static var allTests = [
+        ("testCodeblock", testCodeblock),
+    ]
+}
+
 extension ParagraphTests {
     static var allTests = [
         ("testParagraph", testParagraph),
@@ -45,6 +57,8 @@ extension WhitespaceTests {
 }
 
 XCTMain([
+    testCase(CodeblockTests.allTests),
+    testCase(ExtractNodeTests.allTests),
     testCase(ParagraphTests.allTests),
     testCase(PotentialThematicBreakTests.allTests),
     testCase(WhitespaceTests.allTests),
