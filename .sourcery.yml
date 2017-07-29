@@ -1,0 +1,7 @@
+sources:
+    - Sources/
+    - Tests/
+templates:
+    - tools/
+output:
+    Sources/SwiftMD/generated/

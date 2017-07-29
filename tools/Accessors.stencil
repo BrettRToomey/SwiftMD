@@ -1,0 +1,16 @@
+extension AstNode {
+    {% for type in types.implementing.AstValue|!protocol %}
+    {% if type.parentName|contains:"AstNode" %}
+    var as{{ type.localName }}: {{ type.localName }} {
+        get {
+            return value as! {{ type.localName }}
+        }
+
+        set {
+            self.value = newValue
+        }
+    }
+
+    {% endif %}
+    {% endfor %}
+}

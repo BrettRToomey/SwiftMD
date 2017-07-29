@@ -1,0 +1,27 @@
+// sourcery:inline:ASTEquatable
+extension AstNode: Equatable {
+    public static func ==(lhs: AstNode, rhs: AstNode) -> Bool {
+        return lhs.kind == rhs.kind && lhs.value.cmp(rhs.value)
+    }
+}
+
+extension AstValue {
+    func cmp(_ rhs: AstValue) -> Bool {
+        switch (self, rhs) {
+        {% for type in types.implementing.AstValue|!protocol %}
+        {% if type.storedVariables.count != 0 %}
+        case (let a as {{ type.name }}, let b as {{ type.name }}):
+        {% else %}
+        case (is {{ type.name }}, is {{ type.name }}):
+        {% endif %}
+            {% for var in type.storedVariables where var.name != "body" %}
+            if a.{{ var.name }} != b.{{ var.name }} { return false }
+            {% endfor %}
+            return true
+
+        {% endfor %}
+        default: return false
+        }
+    }
+}
+// sourcery:end
