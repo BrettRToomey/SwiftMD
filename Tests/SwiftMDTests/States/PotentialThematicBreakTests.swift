@@ -89,6 +89,12 @@ class PotentialThematicBreakTests: XCTestCase {
         XCTAssertNotEqual(node?.kind, AstKind.horizontalRule)
     }
 
+    func testMixedThematicBreaksDoesNotResultInThematicBreak() {
+        let parser = "*-*\n".toParser()
+        let node = parser.extractPotentialThematicBreak()
+        XCTAssertNotEqual(node?.kind, AstKind.horizontalRule)
+    }
+
     func testInvalidCharDoesNotResultInThematicBreak() {
         let parser = "--A-\n".toParser()
         let node = parser.extractPotentialThematicBreak()

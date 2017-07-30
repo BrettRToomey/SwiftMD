@@ -34,6 +34,7 @@ extension PotentialThematicBreakTests {
         ("testThematicBreakWithMoreThanThreeCharsAndIntermSpace", testThematicBreakWithMoreThanThreeCharsAndIntermSpace),
         ("testThematicBreakWithMoreThanThreeCharsAndMultipleIntermSpaces", testThematicBreakWithMoreThanThreeCharsAndMultipleIntermSpaces),
         ("testDoesNotReturnHRForTwoChars", testDoesNotReturnHRForTwoChars),
+        ("testMixedThematicBreaksDoesNotResultInThematicBreak", testMixedThematicBreaksDoesNotResultInThematicBreak),
         ("testInvalidCharDoesNotResultInThematicBreak", testInvalidCharDoesNotResultInThematicBreak),
         ("testThematicBreakDoesNotOverpeak", testThematicBreakDoesNotOverpeak),
         ("testThematicBreakDoesNotOverpeakCRLF", testThematicBreakDoesNotOverpeakCRLF),
