@@ -1,11 +1,6 @@
 public typealias Byte = UInt8
 public typealias Bytes = [Byte]
 
-public enum SpecialLine {
-    case codeblock
-    case emptyLine
-}
-
 extension Byte {
     public static let tab: Byte             = 0x09
     public static let newline: Byte         = 0x0A
